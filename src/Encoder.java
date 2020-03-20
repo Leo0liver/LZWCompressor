@@ -1,9 +1,7 @@
 import java.io.*;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.IntStream;
+
 
 public class Encoder {
     public Encoder() {
@@ -60,7 +58,7 @@ public class Encoder {
             while(fileByteList.size() > 0) {
                 phraseAndMismatch = trie.insertNextPhrase(fileByteList);
                 for(int j = 0; j < phraseAndMismatch[1]; j++) {
-                    fileByteList.remove(j);
+                    fileByteList.remove(0);
                 }
                 encodedData += phraseAndMismatch[0] + "\n";
 

@@ -38,30 +38,36 @@ public class ModifiedTrie {
     public int[] insertNextPhrase(ArrayList<Byte> dataIn) {
         TrieNode currentNode = root;
         Byte currentByte;
+        int mismatch = 1;
         int[] phraseAndMismatch = new int[2];
         for(int i = 0; i < dataIn.size(); i++){
+            mismatch = i;
             currentByte = dataIn.get(i);
-            if(currentNode.array[(int)currentByte] != null){
-                if(currentNode.array[(int)currentByte].value == currentByte) {
-                    currentNode = currentNode.array[(int)currentByte];
+            if(currentNode.array[Byte.toUnsignedInt(currentByte)] != null){
+                if(currentNode.array[Byte.toUnsignedInt(currentByte)].value == currentByte) {
+                    currentNode = currentNode.array[Byte.toUnsignedInt(currentByte)];
                 }
 
             }
             else{
                 //When we find a mismatch character add it to the trie with a new phrase number and return the phrase number of previous node and index of mismatch character
-                currentNode.array[(int)currentByte] = new TrieNode();
-                currentNode.array[(int)currentByte].value = currentByte;
-                currentNode.array[(int)currentByte].phraseNum = phraseCounter;
+                currentNode.array[Byte.toUnsignedInt(currentByte)] = new TrieNode();
+                currentNode.array[Byte.toUnsignedInt(currentByte)].value = currentByte;
+                currentNode.array[Byte.toUnsignedInt(currentByte)].phraseNum = phraseCounter;
                 phraseCounter++;
 
                 phraseAndMismatch[0] = currentNode.phraseNum;
                 phraseAndMismatch[1] = i;
                 return phraseAndMismatch;
             }
+            if(i+1 >= dataIn.size()){
+                mismatch = i+1;
+            }
+
         }
 
         phraseAndMismatch[0] = currentNode.phraseNum;
-        phraseAndMismatch[1] = 1;
+        phraseAndMismatch[1] = mismatch;
         return phraseAndMismatch;
     }
 
